@@ -1,1 +1,1 @@
-{ "default": { "identifier": "default", "description": "GAM default capabilities", "local": true, "windows": ["main"], "permissions": ["core:default", "dialog:default", "shell:allow-open", "opener:default", "updater:default", "process:default"] } }
+{"default":{"identifier":"default","description":"GAM default capabilities","local":true,"windows":["main"],"permissions":["core:default","dialog:default","shell:allow-open","opener:default","updater:default","process:default"]}}
