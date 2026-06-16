@@ -1,5 +1,5 @@
 {
     "pre-commit": "pnpm exec cyberskill lint-staged",
     "commit-msg": "pnpm exec cyberskill commitlint",
-    "pre-push": "TAG_ONLY=true; while read local_ref local_oid remote_ref remote_oid; do case \"$local_ref\" in refs/tags/*) ;; *) TAG_ONLY=false; break ;; esac; done; if [ \"$TAG_ONLY\" = true ]; then echo '[pre-push] Tag-only push, skipping build.'; exit 0; fi; pnpm build"
+    "pre-push": "git pull && pnpm run --if-present test"
 }

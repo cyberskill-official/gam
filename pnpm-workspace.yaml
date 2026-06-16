@@ -1,0 +1,12 @@
+allowBuilds:
+  '@apollo/protobufjs': true
+  '@nestjs/core': set this to true or false
+  '@parcel/watcher': true
+  '@swc/core': true
+  puppeteer: true
+  sharp: true
+  simple-git-hooks: true
+onlyBuiltDependencies:
+  - esbuild
+overrides:
+  minimatch@<10.2.3: '>=10.2.3'
