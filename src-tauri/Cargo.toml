@@ -2,6 +2,7 @@
 name = "gam"
 version = "1.0.11"
 description = "Git Alias Manager"
+license = "MIT"
 authors = [ "zintaen" ]
 edition = "2024"
 
