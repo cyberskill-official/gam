@@ -9,3 +9,5 @@ package-lock.json
 .simple-git-hooks.json
 
 .agent
+src-tauri/gen/schemas
+*.tsbuildinfo
