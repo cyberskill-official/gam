@@ -20,7 +20,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
 
       - name: Env & Deps
-        uses: cyberskill-world/.github/actions/env-deps@main
+        uses: ./.github/actions/env-deps
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
@@ -33,7 +33,7 @@ jobs:
           workspaces: './src-tauri -> target'
 
       - name: Lint
-        uses: cyberskill-world/.github/actions/lint@main
+        uses: ./.github/actions/lint
 
       - name: Frontend Tests with Coverage
         run: pnpm test -- --coverage
@@ -57,7 +57,7 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
 
       - name: Env & Deps
-        uses: cyberskill-world/.github/actions/env-deps@main
+        uses: ./.github/actions/env-deps
 
       - name: npm audit
         run: pnpm audit --audit-level=high
@@ -112,8 +112,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
 
+      # Non-blocking: needs the repo Dependency Graph enabled. Rust deps are
+      # already gated by cargo-deny + cargo-audit, npm by pnpm audit above.
       - name: Dependency Review
         uses: actions/dependency-review-action@da24556b548a50705dd671f47852072ea4c105d9  # v4.7.1
+        continue-on-error: true
         with:
           fail-on-severity: high
           comment-summary-in-pr: always
