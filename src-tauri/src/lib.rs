@@ -82,8 +82,6 @@ pub fn run() {
             Ok(())
         })
         .plugin(tauri_plugin_dialog::init())
-        .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_opener::init())
         .manage(AppState {
             git_service: RwLock::new(git_service),
             settings_service: RwLock::new(SettingsService::new()),
