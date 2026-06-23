@@ -381,7 +381,7 @@ mod tests {
 
         assert_eq!(cache.get("git commit").unwrap().frequency, 2.0);
         assert_eq!(cache.get("git status").unwrap().frequency, 1.0);
-        assert!(cache.get("git ls").is_none());
+        assert!(!cache.contains_key("git ls"));
     }
 
     #[test]
@@ -407,7 +407,7 @@ mod tests {
         assert_eq!(st.frequency, 1.0);
         assert_eq!(st.last_seen, 1700000100);
 
-        assert!(cache.get("git ls").is_none());
+        assert!(!cache.contains_key("git ls"));
     }
 
     #[test]
@@ -442,6 +442,6 @@ mod tests {
 
         assert_eq!(cache.get("git commit").unwrap().frequency, 1.0);
         assert_eq!(cache.get("git push").unwrap().frequency, 1.0);
-        assert!(cache.get("git ls").is_none());
+        assert!(!cache.contains_key("git ls"));
     }
 }

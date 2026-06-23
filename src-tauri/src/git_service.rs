@@ -508,4 +508,147 @@ mod tests {
         assert!(GitService::validate_alias_name("co\ngit push --force").is_err());
         assert!(GitService::validate_alias_name("alias.evil").is_err());
     }
+
+    // --- Integration tests: exercise the real `git` subprocess (exec_git) ---
+    //
+    // These operate in local scope against a throwaway git repo in a temp dir, so
+    // they never read or write the user's global ~/.gitconfig. They require `git`
+    // on PATH, which both CI and dev machines have. Each test gets its own unique
+    // temp repo, so they are safe to run in parallel.
+
+    /// A unique temp git repo that removes itself on drop. Dependency-free.
+    struct TempRepo {
+        path: std::path::PathBuf,
+    }
+
+    impl TempRepo {
+        fn new() -> Self {
+            use std::sync::atomic::{AtomicU32, Ordering};
+            static COUNTER: AtomicU32 = AtomicU32::new(0);
+
+            let nanos = std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .map(|d| d.as_nanos())
+                .unwrap_or(0);
+            let unique = COUNTER.fetch_add(1, Ordering::Relaxed);
+            let dir = std::env::temp_dir().join(format!(
+                "gam-it-{}-{}-{}",
+                std::process::id(),
+                unique,
+                nanos
+            ));
+            std::fs::create_dir_all(&dir).expect("create temp dir");
+
+            let initialized = std::process::Command::new("git")
+                .args(["init", "--quiet"])
+                .current_dir(&dir)
+                .status()
+                .expect("run git init")
+                .success();
+            assert!(initialized, "git init failed in temp repo");
+
+            Self { path: dir }
+        }
+
+        fn path_str(&self) -> String {
+            self.path.to_string_lossy().to_string()
+        }
+    }
+
+    impl Drop for TempRepo {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.path);
+        }
+    }
+
+    fn local_service(repo: &TempRepo) -> GitService {
+        let mut svc = GitService::new();
+        svc.set_local_path(Some(repo.path_str()));
+        svc
+    }
+
+    #[test]
+    fn integration_add_then_get_local_alias() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        svc.add_alias("co", "checkout", "local", None).expect("add");
+
+        let aliases = svc.get_aliases("local").expect("get");
+        let co = aliases.iter().find(|a| a.name == "co").expect("co present");
+        assert_eq!(co.command, "checkout");
+        assert_eq!(co.scope, "local");
+    }
+
+    #[test]
+    fn integration_get_on_fresh_repo_is_empty() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        let aliases = svc.get_aliases("local").expect("get");
+        assert!(aliases.is_empty(), "fresh repo had {} aliases", aliases.len());
+    }
+
+    #[test]
+    fn integration_add_duplicate_is_rejected() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        svc.add_alias("st", "status -sb", "local", None).expect("add");
+        let err = svc
+            .add_alias("st", "status", "local", None)
+            .expect_err("duplicate should fail");
+        assert!(err.contains("already exists"), "unexpected error: {err}");
+    }
+
+    #[test]
+    fn integration_update_renames_and_changes_command() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        svc.add_alias("ci", "commit", "local", None).expect("add");
+        svc.update_alias("ci", "cm", "commit -v", "local", None)
+            .expect("update");
+
+        let aliases = svc.get_aliases("local").expect("get");
+        assert!(aliases.iter().all(|a| a.name != "ci"), "old name still present");
+        let cm = aliases.iter().find(|a| a.name == "cm").expect("new name present");
+        assert_eq!(cm.command, "commit -v");
+    }
+
+    #[test]
+    fn integration_delete_removes_alias() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        svc.add_alias("br", "branch", "local", None).expect("add");
+        svc.delete_alias("br", "local", None).expect("delete");
+
+        let aliases = svc.get_aliases("local").expect("get");
+        assert!(aliases.iter().all(|a| a.name != "br"), "br was not removed");
+    }
+
+    #[test]
+    fn integration_multiword_command_roundtrips() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        let command = "log --oneline --graph --decorate --all";
+        svc.add_alias("lg", command, "local", None).expect("add");
+
+        let aliases = svc.get_aliases("local").expect("get");
+        let lg = aliases.iter().find(|a| a.name == "lg").expect("lg present");
+        assert_eq!(lg.command, command);
+    }
+
+    #[test]
+    fn integration_invalid_name_is_rejected_before_git() {
+        let repo = TempRepo::new();
+        let mut svc = local_service(&repo);
+
+        let err = svc
+            .add_alias("co;rm -rf", "checkout", "local", None)
+            .expect_err("invalid name should fail");
+        assert!(err.contains("Invalid alias name"), "unexpected error: {err}");
+    }
 }
