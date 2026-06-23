@@ -4,6 +4,7 @@ import type { T_ThemeId } from '#/types';
 
 import { AboutPanel } from './settings/AboutPanel';
 import { DataPanel } from './settings/DataPanel';
+import { PrivacyPanel } from './settings/PrivacyPanel';
 import { ThemePanel } from './settings/ThemePanel';
 
 interface I_SettingsDropdownProps {
@@ -18,7 +19,7 @@ interface I_SettingsDropdownProps {
     onOpenExternal: (url: string) => void;
 }
 
-type T_OpenPanel = 'theme' | 'data' | 'about' | null;
+type T_OpenPanel = 'theme' | 'data' | 'privacy' | 'about' | null;
 
 export function SettingsDropdown({
     themeId,
@@ -116,6 +117,21 @@ export function SettingsDropdown({
                         onClose={close}
                     />
                 )}
+            </div>
+
+            {/* ── Privacy button ─── */}
+            <div className="relative">
+                <button
+                    className={btnClass(openPanel === 'privacy')}
+                    onClick={() => toggle('privacy')}
+                    aria-haspopup="true"
+                    aria-expanded={openPanel === 'privacy'}
+                >
+                    🔒
+                    {tooltip('Privacy')}
+                </button>
+
+                {openPanel === 'privacy' && <PrivacyPanel />}
             </div>
 
             {/* ── About button ─── */}

@@ -44,6 +44,12 @@ export const tauriAPI: I_AppAPI = {
     setTheme: themeId =>
         invoke<I_IpcResult>('set_theme', { themeId }),
 
+    getHistoryRankingEnabled: () =>
+        invoke<I_IpcResult<boolean>>('get_history_ranking_enabled'),
+
+    setHistoryRankingEnabled: enabled =>
+        invoke<I_IpcResult<boolean>>('set_history_ranking_enabled', { enabled }),
+
     // Groups
     getGroups: () => invoke<I_IpcResult<I_AliasGroup[]>>('get_groups'),
 

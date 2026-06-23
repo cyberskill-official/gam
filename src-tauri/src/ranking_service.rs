@@ -48,6 +48,8 @@ pub struct RankingService {
     history_cache: HashMap<String, HistoryEntry>,
     last_fetch_time: Option<Instant>,
     cache_ttl: Duration,
+    /// When false, the user has opted out and no shell history is read.
+    enabled: bool,
 }
 
 impl Default for RankingService {
@@ -62,13 +64,33 @@ impl RankingService {
             history_cache: HashMap::new(),
             last_fetch_time: None,
             cache_ttl: Duration::from_secs(5),
+            enabled: true,
         }
+    }
+
+    /// Enable or disable shell-history scoring. Disabling also clears any cached
+    /// history so opting out also forgets what was already read.
+    pub fn set_enabled(&mut self, enabled: bool) {
+        self.enabled = enabled;
+        if !enabled {
+            self.history_cache.clear();
+            self.last_fetch_time = None;
+        }
+    }
+
+    pub fn is_enabled(&self) -> bool {
+        self.enabled
     }
 
     pub fn get_scores(
         &mut self,
         aliases: &[GitAlias],
     ) -> Result<HashMap<String, f64>, String> {
+        // Respect the user's consent choice: when disabled, never read shell history.
+        if !self.enabled {
+            return Ok(aliases.iter().map(|a| (a.name.clone(), 0.0)).collect());
+        }
+
         let should_refresh = match self.last_fetch_time {
             Some(t) => t.elapsed() > self.cache_ttl,
             None => true,
@@ -443,5 +465,24 @@ mod tests {
         assert_eq!(cache.get("git commit").unwrap().frequency, 1.0);
         assert_eq!(cache.get("git push").unwrap().frequency, 1.0);
         assert!(!cache.contains_key("git ls"));
+    }
+
+    #[test]
+    fn disabled_ranking_returns_zero_scores() {
+        let mut svc = RankingService::new();
+        assert!(svc.is_enabled(), "ranking is enabled by default");
+
+        svc.set_enabled(false);
+        assert!(!svc.is_enabled());
+
+        let aliases = vec![crate::git_service::GitAlias {
+            name: "co".to_string(),
+            command: "checkout".to_string(),
+            scope: "global".to_string(),
+            local_path: None,
+            score: None,
+        }];
+        let scores = svc.get_scores(&aliases).expect("scores");
+        assert_eq!(scores.get("co"), Some(&0.0));
     }
 }

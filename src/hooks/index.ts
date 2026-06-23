@@ -1,6 +1,7 @@
 export { useAliasActions } from './useAliasActions';
 export { useAliases } from './useAliases';
 export { useDragDrop } from './useDragDrop';
+export { useHistoryRanking } from './useHistoryRanking';
 export { useLocalPath } from './useLocalPath';
 export { useSearch } from './useSearch';
 export { useTheme } from './useTheme';

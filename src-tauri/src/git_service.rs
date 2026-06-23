@@ -66,6 +66,15 @@ impl GitService {
         self.local_path.clone()
     }
 
+    /// Toggle whether alias ranking reads the user's shell history.
+    pub fn set_history_ranking_enabled(&mut self, enabled: bool) {
+        self.ranking_service.set_enabled(enabled);
+    }
+
+    pub fn is_history_ranking_enabled(&self) -> bool {
+        self.ranking_service.is_enabled()
+    }
+
     fn exec_git(&self, args: &[&str], cwd: Option<&str>) -> Result<String, String> {
         let mut cmd = Command::new("git");
         cmd.args(args);

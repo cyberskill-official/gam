@@ -270,6 +270,26 @@ pub fn set_theme(state: State<'_, AppState>, theme_id: String) -> IpcResult<bool
     IpcResult::ok(true)
 }
 
+// ── History-ranking consent ────────────────────────────────
+
+#[tauri::command]
+pub fn get_history_ranking_enabled(state: State<'_, AppState>) -> IpcResult<bool> {
+    let git = state.git_service.read().unwrap_or_else(|e| e.into_inner());
+    IpcResult::ok(git.is_history_ranking_enabled())
+}
+
+#[tauri::command]
+pub fn set_history_ranking_enabled(state: State<'_, AppState>, enabled: bool) -> IpcResult<bool> {
+    // Persist the choice, then apply it to the live ranking service.
+    {
+        let mut settings = state.settings_service.write().unwrap_or_else(|e| e.into_inner());
+        settings.set("historyRankingEnabled", &enabled.to_string());
+    }
+    let mut git = state.git_service.write().unwrap_or_else(|e| e.into_inner());
+    git.set_history_ranking_enabled(enabled);
+    IpcResult::ok(enabled)
+}
+
 // ── Group management ───────────────────────────────────────
 
 #[tauri::command]

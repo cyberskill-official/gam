@@ -68,6 +68,8 @@ export interface I_AppAPI {
     openExternal: (url: string) => Promise<I_IpcResult>;
     getTheme: () => Promise<I_IpcResult<string>>;
     setTheme: (themeId: string) => Promise<I_IpcResult>;
+    getHistoryRankingEnabled: () => Promise<I_IpcResult<boolean>>;
+    setHistoryRankingEnabled: (enabled: boolean) => Promise<I_IpcResult<boolean>>;
     // Groups
     getGroups: () => Promise<I_IpcResult<I_AliasGroup[]>>;
     createGroup: (name: string, color: string) => Promise<I_IpcResult<I_AliasGroup>>;

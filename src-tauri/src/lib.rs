@@ -65,10 +65,18 @@ pub fn run() {
             })
     };
 
+    let settings_service = SettingsService::new();
+    // Load the persisted history-ranking consent choice (default: enabled).
+    let history_ranking_enabled = settings_service
+        .get("historyRankingEnabled")
+        .map(|v| v != "false")
+        .unwrap_or(true);
+
     let mut git_service = GitService::new();
     if let Some(ref path) = local_path {
         git_service.set_local_path(Some(path.clone()));
     }
+    git_service.set_history_ranking_enabled(history_ranking_enabled);
 
     tauri::Builder::default()
         .setup(move |app| {
@@ -84,7 +92,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .manage(AppState {
             git_service: RwLock::new(git_service),
-            settings_service: RwLock::new(SettingsService::new()),
+            settings_service: RwLock::new(settings_service),
             group_service: RwLock::new(GroupService::new()),
         })
         .invoke_handler(tauri::generate_handler![
@@ -102,6 +110,8 @@ pub fn run() {
             commands::open_external,
             commands::get_theme,
             commands::set_theme,
+            commands::get_history_ranking_enabled,
+            commands::set_history_ranking_enabled,
             commands::get_groups,
             commands::create_group,
             commands::rename_group,
