@@ -154,7 +154,7 @@ impl GitService {
         }
 
         // Sort alphabetically
-        aliases.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+        aliases.sort_by_key(|a| a.name.to_lowercase());
 
         // Rank aliases based on telemetry history
         if let Ok(scores) = self.ranking_service.get_scores(&aliases) {
