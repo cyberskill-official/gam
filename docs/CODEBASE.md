@@ -21,14 +21,14 @@ gam/
 │   └── src/
 │       ├── main.rs         # Entry point
 │       ├── lib.rs          # Tauri builder, AppState, plugin setup
-│       ├── commands.rs     # 20 IPC commands (Tauri #[command])
+│       ├── commands.rs     # 21 IPC commands (Tauri #[command])
 │       ├── git_service.rs  # Git alias CRUD via subprocess
 │       ├── file_service.rs # JSON import/export (aliases + groups)
 │       ├── group_service.rs     # Alias group CRUD
 │       ├── ranking_service.rs   # Shell history scoring
 │       ├── settings_service.rs  # App settings persistence
 │       └── known_repos_service.rs # Tracked repo paths
-├── tests/                  # Vitest test suites (22 files, 174 tests)
+├── tests/                  # Vitest test suites (225 frontend tests); 66 Rust unit tests live inline in src-tauri/src/
 ├── docs/                   # User-facing documentation
 └── .github/workflows/      # CI — check.yml (3-platform matrix) + release.yml
 ```
@@ -43,22 +43,22 @@ User Action → React Component → Hook → tauri-bridge.ts → IPC → Rust Co
 
 ### IPC Commands (commands.rs)
 
-| Command                                          | Service           | Description                              |
-| ------------------------------------------------ | ----------------- | ---------------------------------------- |
-| `get_aliases`                                    | `GitService`      | List aliases by scope (global/local/all) |
-| `add_alias`                                      | `GitService`      | Create new alias                         |
-| `update_alias`                                   | `GitService`      | Rename or modify alias                   |
-| `delete_alias`                                   | `GitService`      | Remove alias                             |
-| `validate_command`                               | `GitService`      | Check for dangerous patterns             |
-| `export_aliases`                                 | `FileService`     | Save to JSON file (includes groups)      |
-| `import_aliases`                                 | `FileService`     | Load from JSON file (auto-merges groups) |
-| `select_folder`                                  | Dialog            | Native folder picker                     |
-| `get_local_path` / `set_local_path`              | `GitService`      | Current repo scope                       |
-| `open_local_folder` / `open_external`            | `open` crate      | Open in OS file manager                  |
-| `get_theme` / `set_theme`                        | `SettingsService` | Theme persistence                        |
-| `get_groups` / `create_group`                    | `GroupService`    | Group CRUD                               |
-| `rename_group` / `delete_group`                  | `GroupService`    | Group mutation                           |
-| `set_alias_groups` / `get_all_group_assignments` | `GroupService`    | Alias ↔ group mapping                    |
+| Command                                             | Service           | Description                              |
+| --------------------------------------------------- | ----------------- | ---------------------------------------- |
+| `get_aliases`                                       | `GitService`      | List aliases by scope (global/local/all) |
+| `add_alias`                                         | `GitService`      | Create new alias                         |
+| `update_alias`                                      | `GitService`      | Rename or modify alias                   |
+| `delete_alias`                                      | `GitService`      | Remove alias                             |
+| `validate_command`                                  | `GitService`      | Check for dangerous patterns             |
+| `export_aliases`                                    | `FileService`     | Save to JSON file (includes groups)      |
+| `import_aliases`                                    | `FileService`     | Load from JSON file (auto-merges groups) |
+| `select_folder`                                     | Dialog            | Native folder picker                     |
+| `get_local_path` / `set_local_path`                 | `GitService`      | Current repo scope                       |
+| `open_local_folder` / `open_external`               | `open` crate      | Open in OS file manager                  |
+| `get_theme` / `set_theme`                           | `SettingsService` | Theme persistence                        |
+| `get_groups` / `create_group`                       | `GroupService`    | Group CRUD                               |
+| `rename_group` / `set_group_color` / `delete_group` | `GroupService`    | Group mutation (rename, color, delete)   |
+| `set_alias_groups` / `get_all_group_assignments`    | `GroupService`    | Alias ↔ group mapping                    |
 
 ### Rust Services
 
@@ -97,7 +97,7 @@ All persistent data via `dirs::data_dir()`:
 
 Files: `settings.json`, `known-repos.json`, `groups.json`
 
-Crash log: `~/.gam/crash.log`
+Crash log: `com.github.zintaen.gam/crash.log` (in the same `dirs::data_dir()` directory as the files above)
 
 ## File Dependencies
 

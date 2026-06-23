@@ -27,7 +27,7 @@ export function UpdateModal({
                 onDismiss();
         };
         window.addEventListener('keydown', handler);
-        const timer = setTimeout(() => setEntered(true), 50);
+        const timer = setTimeout(setEntered, 50, true);
 
         return () => {
             window.removeEventListener('keydown', handler);

@@ -42,7 +42,7 @@
     },
     "plugins": {
         "updater": {
-            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEIxMjhFMjVEMUQ1QUYxQzMKUldURDhWb2RYZUlvc2UweGRldEw3S0hJQUpqc0JhZDV1YlVWRGRXbVQ5WGNYRDJKbWNYMjc4UnoK",
+            "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEE1NURCOUVENUFFNEMwRDEKUldUUndPUmE3YmxkcFFVYWRVR0JWenEvZ1Z6NFlUbVFpMW55NnppM0F5S3g4a2VOQ1N4QmI0WFEK",
             "endpoints": [
                 "https://github.com/zintaen/gam/releases/latest/download/latest.json"
             ]

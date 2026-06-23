@@ -6,7 +6,7 @@ import '@testing-library/jest-dom';
 if (typeof globalThis.localStorage === 'undefined') {
     const store = new Map<string, string>();
     const shim: Storage = {
-        getItem: (k) => (store.has(k) ? (store.get(k) as string) : null),
+        getItem: k => (store.has(k) ? (store.get(k) as string) : null),
         setItem: (k, v) => {
             store.set(k, String(v));
         },
@@ -16,7 +16,7 @@ if (typeof globalThis.localStorage === 'undefined') {
         clear: () => {
             store.clear();
         },
-        key: (i) => Array.from(store.keys())[i] ?? null,
+        key: i => Array.from(store.keys())[i] ?? null,
         get length() {
             return store.size;
         },

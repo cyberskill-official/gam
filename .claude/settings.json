@@ -1,5 +1,5 @@
 {
-  "_comment": "Stage-0 deterministic gates from auto-work-harness, wired for gam. Hook commands use the harness's absolute path on this Mac. The PreToolUse hook auto-discovers gam/.awh/policy.json; the Stop hook auto-discovers gam/.awh/gate.sh. Exit code 2 from a hook blocks the action and returns stderr to the model. (PostToolUse Python formatter is omitted — gam is TypeScript; add a prettier/eslint --fix hook if you want auto-format.)",
+  "_comment": "Stage-0 deterministic gates from auto-work-harness, wired for gam. Hook commands resolve the harness through ${AWH_HOME:-$HOME/Projects/auto-work-harness}, so no machine-specific absolute path is hardcoded; set AWH_HOME to override (after CyberOS absorption, point it at the vendored tools/awh). The PreToolUse hook auto-discovers gam/.awh/policy.json; the Stop hook auto-discovers gam/.awh/gate.sh. Exit code 2 from a hook blocks the action and returns stderr to the model. (PostToolUse Python formatter is omitted — gam is TypeScript; add a prettier/eslint --fix hook if you want auto-format.)",
   "hooks": {
     "PreToolUse": [
       {
@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/stephencheng/Projects/auto-work-harness/harness/stage0_verification/hooks/pretooluse_deny.py"
+            "command": "python3 \"${AWH_HOME:-$HOME/Projects/auto-work-harness}/harness/stage0_verification/hooks/pretooluse_deny.py\""
           }
         ]
       }
@@ -18,7 +18,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/stephencheng/Projects/auto-work-harness/harness/stage0_verification/hooks/stop_gate.py"
+            "command": "python3 \"${AWH_HOME:-$HOME/Projects/auto-work-harness}/harness/stage0_verification/hooks/stop_gate.py\""
           }
         ]
       }
@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 /Users/stephencheng/Projects/auto-work-harness/harness/stage0_verification/hooks/stop_gate.py"
+            "command": "python3 \"${AWH_HOME:-$HOME/Projects/auto-work-harness}/harness/stage0_verification/hooks/stop_gate.py\""
           }
         ]
       }

@@ -1,0 +1,10 @@
+---
+name: Lint
+description: Run the project linter (cyberskill lint).
+
+runs:
+  using: composite
+  steps:
+    - name: Lint
+      shell: bash
+      run: pnpm lint

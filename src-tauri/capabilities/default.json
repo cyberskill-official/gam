@@ -7,8 +7,6 @@
     "permissions": [
         "core:default",
         "dialog:default",
-        "shell:allow-open",
-        "opener:default",
         "updater:default",
         "process:default"
     ]
