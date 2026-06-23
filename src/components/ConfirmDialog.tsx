@@ -50,7 +50,7 @@ export function ConfirmDialog({
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
-        const timer = setTimeout(() => setEntered(true), 400);
+        const timer = setTimeout(setEntered, 400, true);
         // Auto-focus cancel button
         cancelRef.current?.focus();
 

@@ -2,6 +2,14 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vitest/config';
 
+// Vite/Vitest pick React's development vs production build from NODE_ENV. A shell that
+// exports NODE_ENV=production loads production React (where React.act is stripped), which
+// breaks @testing-library/react. Force a test environment so the suite is independent of
+// the ambient shell, keeping CI and the awh gate deterministic.
+if (process.env.NODE_ENV === 'production') {
+    process.env.NODE_ENV = 'test';
+}
+
 const pkg = JSON.parse(readFileSync('./package.json', 'utf-8'));
 
 export default defineConfig({
