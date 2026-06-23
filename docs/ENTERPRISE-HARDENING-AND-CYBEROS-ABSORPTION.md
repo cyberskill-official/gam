@@ -53,7 +53,7 @@ What is already strong:
 
 What is wrong and matters:
 
-- Leaked updater signing key, high severity. The untracked `.env` holds a live `TAURI_SIGNING_PRIVATE_KEY` plus its password, and the password is `7777777`. This is the private half of the updater public key in `tauri.conf.json`. Anyone with that file and the trivial password can sign an update that every installed copy of gam auto-accepts. It was never committed to git history (verified) and CI uses GitHub Secrets rather than the file, so the blast radius is the local machine and anyone who held the working tree. It must be treated as compromised: rotate the keypair, update the public key, delete the file, move the secret to a manager. This document deliberately does not reproduce the key.
+- Leaked updater signing key, high severity. The untracked `.env` holds a live `TAURI_SIGNING_PRIVATE_KEY` plus its password, and the password is `[redacted]`. This is the private half of the updater public key in `tauri.conf.json`. Anyone with that file and the trivial password can sign an update that every installed copy of gam auto-accepts. It was never committed to git history (verified) and CI uses GitHub Secrets rather than the file, so the blast radius is the local machine and anyone who held the working tree. It must be treated as compromised: rotate the keypair, update the public key, delete the file, move the secret to a manager. This document deliberately does not reproduce the key.
 - No operating-system code signing or notarization, high severity for distribution. There is no Apple Developer ID, hardened runtime, or entitlements in `tauri.conf.json`, and no Authenticode or notarization step in CI. Every installer is unsigned, so macOS Gatekeeper and Windows SmartScreen warn users, and the Homebrew cask ships an unnotarized app. The strong updater signing protects the update channel but not first-install OS trust, which is an odd asymmetry to leave standing.
 - Capability scope is coarse. `shell:allow-open` and `opener:default` are not constrained to a URL or path pattern. The Rust `open_external` scheme allowlist (HTTPS only) compensates, but capability-level scoping is the missing belt-and-suspenders.
 - The install registry in `.npmrc` points at a third-party mirror (`registry.npmmirror.com`). That is a latency choice, but release builds should pin to the canonical registry or rely solely on the committed lockfile.
@@ -182,12 +182,12 @@ Phasing follows CyberOS's P0 to P4 convention. Each phase is a set of tasks that
 
 ### P0, do first, unblocks everything (security and process integrity)
 
-| Item                                                                                                            | Why                                                                       | Effort |
-| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------ |
-| Rotate the updater signing keypair, delete `.env`, move the secret to a manager, update the public key          | A live signing key with password 7777777 is a silent auto-update RCE risk | S      |
-| Re-capture a green `eval-baseline.json` on a clean Mac tree (lint, test, typecheck all passing)                 | The current red baseline lets the gate tolerate lint and type errors      | S      |
-| Make `.claude/settings.json` hook paths relative or env-driven                                                  | Hardcoded host paths break every other environment and block absorption   | S      |
-| Fix doc drift (`CODEBASE.md` command and test counts, crash-log path) and the stray `pnpm-workspace.yaml` value | Cheap correctness, removes confusion before the merge                     | S      |
+| Item                                                                                                            | Why                                                                          | Effort |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ------ |
+| Rotate the updater signing keypair, delete `.env`, move the secret to a manager, update the public key          | A live signing key with password [redacted] is a silent auto-update RCE risk | S      |
+| Re-capture a green `eval-baseline.json` on a clean Mac tree (lint, test, typecheck all passing)                 | The current red baseline lets the gate tolerate lint and type errors         | S      |
+| Make `.claude/settings.json` hook paths relative or env-driven                                                  | Hardcoded host paths break every other environment and block absorption      | S      |
+| Fix doc drift (`CODEBASE.md` command and test counts, crash-log path) and the stray `pnpm-workspace.yaml` value | Cheap correctness, removes confusion before the merge                        | S      |
 
 ### P1, harden the core
 

@@ -25,14 +25,14 @@ There is also a pre-existing staged dependency bump on this branch that was alre
 
 ## Step A. Rotate the updater signing key (do first, the current key is compromised)
 
-The current `.env` holds a live `TAURI_SIGNING_PRIVATE_KEY` with the password `7777777`. Treat it as compromised and rotate.
+The current `.env` holds a live `TAURI_SIGNING_PRIVATE_KEY` with the password `[redacted]`. Treat it as compromised and rotate.
 
 Important consequence to decide on first. The updater public key is embedded in every released binary. Already-installed copies of gam (v1.0.11 and earlier) carry the old public key and will only accept updates signed by the old private key. After rotation, the next release is signed by the new key, so existing installs will reject the auto-update and stay on their current version until users reinstall once. New installs from the next release onward auto-update normally. For an app at gam's scale this is acceptable with a one-line note in the release. The alternative, keeping a known-compromised key, leaves a silent auto-update RCE path open, so rotation is the right call.
 
 ```bash
 cd ~/Projects/Personal/gam
 
-# 1. Generate a fresh keypair with a STRONG password (not 7777777).
+# 1. Generate a fresh keypair with a STRONG password (not [redacted]).
 pnpm tauri signer generate -w ~/.tauri/gam_updater.key
 # This prints the public key and writes the private key to the path above.
 # Copy the public key it prints.
