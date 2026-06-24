@@ -41,9 +41,9 @@ export function AboutPanel({ onOpenExternal }: I_AboutPanelProps) {
                         <button
                             className="bg-transparent border-none p-0 cursor-pointer hover:underline text-[12px]"
                             style={{ color: 'var(--color-primary)' }}
-                            onClick={() => onOpenExternal('https://github.com/zintaen/gam')}
+                            onClick={() => onOpenExternal('https://github.com/cyberskill-official/gam')}
                         >
-                            github.com/zintaen/gam
+                            github.com/cyberskill-official/gam
                         </button>
                     </div>
                     <div className="flex items-center gap-2">

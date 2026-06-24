@@ -4,7 +4,9 @@
 
 **A professional desktop GUI for managing Git aliases across Windows, Linux, and macOS.**
 
-[![GitHub Stars](https://img.shields.io/github/stars/zintaen/gam?style=social)](https://github.com/zintaen/gam)
+Made by [CyberSkill](https://www.cyberskill.world), open source, and used by our own teams every day.
+
+[![GitHub Stars](https://img.shields.io/github/stars/cyberskill-official/gam?style=social)](https://github.com/cyberskill-official/gam)
 
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri-FFC131.svg?logo=tauri)](https://tauri.app/)
@@ -96,7 +98,7 @@ Suggestions automatically filter out names that conflict with your existing alia
 
 ### Direct Download
 
-Download the latest release for your platform from the [GitHub Releases](https://github.com/zintaen/gam/releases/latest) page:
+Download the latest release for your platform from the [GitHub Releases](https://github.com/cyberskill-official/gam/releases/latest) page:
 
 | Platform              | File                       |
 | --------------------- | -------------------------- |
@@ -127,7 +129,7 @@ brew install --cask zintaen/tap/gam
 
 ```bash
 # Clone the repository
-git clone https://github.com/zintaen/gam.git
+git clone https://github.com/cyberskill-official/gam.git
 cd gam
 
 # Install dependencies
@@ -200,7 +202,7 @@ See [CODEBASE.md](./CODEBASE.md) for full architecture details including IPC com
 
 ## 🍌 Support
 
-If GAM saves you time and brainpower, give it a star on [GitHub](https://github.com/zintaen/gam), and consider fueling its development with a banana!
+If GAM saves you time and brainpower, give it a star on [GitHub](https://github.com/cyberskill-official/gam), and consider fueling its development with a banana!
 
 [<img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Banana" height="50">](https://buymeacoffee.com/zintaen)
 

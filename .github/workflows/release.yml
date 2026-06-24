@@ -126,13 +126,13 @@ jobs:
 
             | Platform | Architecture | File |
             |----------|-------------|------|
-            | 🍎 macOS | Apple Silicon (M1/M2/M3/M4) | [`GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg) |
-            | 🍎 macOS | Intel | [`GAM_${{ needs.prepare.outputs.version }}_x64.dmg`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64.dmg) |
-            | 🪟 Windows | x64 (Installer) | [`GAM_${{ needs.prepare.outputs.version }}_x64-setup.exe`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64-setup.exe) |
-            | 🪟 Windows | x64 (MSI) | [`GAM_${{ needs.prepare.outputs.version }}_x64_en-US.msi`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64_en-US.msi) |
-            | 🐧 Linux | x64 (Debian/Ubuntu) | [`GAM_${{ needs.prepare.outputs.version }}_amd64.deb`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_amd64.deb) |
-            | 🐧 Linux | x64 (Fedora/RHEL) | [`GAM-${{ needs.prepare.outputs.version }}-1.x86_64.rpm`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM-${{ needs.prepare.outputs.version }}-1.x86_64.rpm) |
-            | 🐧 Linux | x64 (AppImage) | [`GAM_${{ needs.prepare.outputs.version }}_amd64.AppImage`](https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_amd64.AppImage) |
+            | 🍎 macOS | Apple Silicon (M1/M2/M3/M4) | [`GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg) |
+            | 🍎 macOS | Intel | [`GAM_${{ needs.prepare.outputs.version }}_x64.dmg`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64.dmg) |
+            | 🪟 Windows | x64 (Installer) | [`GAM_${{ needs.prepare.outputs.version }}_x64-setup.exe`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64-setup.exe) |
+            | 🪟 Windows | x64 (MSI) | [`GAM_${{ needs.prepare.outputs.version }}_x64_en-US.msi`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_x64_en-US.msi) |
+            | 🐧 Linux | x64 (Debian/Ubuntu) | [`GAM_${{ needs.prepare.outputs.version }}_amd64.deb`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_amd64.deb) |
+            | 🐧 Linux | x64 (Fedora/RHEL) | [`GAM-${{ needs.prepare.outputs.version }}-1.x86_64.rpm`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM-${{ needs.prepare.outputs.version }}-1.x86_64.rpm) |
+            | 🐧 Linux | x64 (AppImage) | [`GAM_${{ needs.prepare.outputs.version }}_amd64.AppImage`](https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_amd64.AppImage) |
 
             > **Note:** `.sig` and `.tar.gz` files are used for auto-update verification. You can safely ignore them.
 
@@ -228,7 +228,7 @@ jobs:
       - name: Compute SHA256 of DMG
         id: sha
         run: |
-          DMG_URL="https://github.com/zintaen/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg"
+          DMG_URL="https://github.com/cyberskill-official/gam/releases/download/${{ github.ref_name }}/GAM_${{ needs.prepare.outputs.version }}_aarch64.dmg"
           echo "Downloading ${DMG_URL}..."
           SHA=$(curl -sL --fail --retry 5 --retry-delay 10 "${DMG_URL}" | sha256sum | awk '{print $1}')
 
