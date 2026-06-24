@@ -1,3 +1,22 @@
+## v1.0.12 (2026-06-24)
+
+- 4a766b8 Merge pull request #2 from cyberskill-official/chore/rebrand-to-cyberskill
+- 84d4c31 chore(brand): rebrand gam to CyberSkill (cyberskill-official/gam)
+- 1db1d51 Merge pull request #1 from zintaen/auto/gam-absorb
+- f55d97c fix(security): rotate updater public key, scrub old password from docs
+- 55d8adb fix(ci): install Linux Tauri deps, satisfy clippy 1.96
+- 0f2a013 ci: make CI self-contained, unblock dependency review
+- 130cf43 feat(privacy): add consent toggle for shell-history ranking
+- 963a56c ci(security): add cargo-deny supply-chain gate
+- cb61f74 refactor(security): remove unused shell and opener Tauri plugins
+- c6ba8ec test(git-service): add git subprocess integration tests
+- 5f9957f chore: portable harness paths, notarization wiring, docs, awh re-baseline
+- 5b1a920 fix(quality): green the lint, type, and test gate
+- 98a381d build(deps): bump Tauri to latest (api 2.11.1, tauri 2.11.3, plugins)
+- c80c846 chore: adopt auto-work-harness + bump @cyberskill/shared to 3.21.0
+- 015ee18 fix(test): in-memory localStorage shim so useTheme tests pass (217/225 -> 225/225)
+- a938569 fix
+
 ## v1.0.11 (2026-03-03)
 
 - 218a3cb feat: use embed font instead of online font

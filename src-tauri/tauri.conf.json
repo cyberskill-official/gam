@@ -1,6 +1,6 @@
 {
     "productName": "GAM",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "identifier": "com.github.zintaen.gam",
     "build": {
         "frontendDist": "../dist",
