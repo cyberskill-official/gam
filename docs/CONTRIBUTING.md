@@ -24,7 +24,7 @@ Please read and follow our [Code of Conduct](./CODE_OF_CONDUCT.md). We are commi
 1. **Fork** the repository on GitHub.
 2. **Clone** your fork locally:
     ```bash
-    git clone https://github.com/zintaen/gam.git
+    git clone https://github.com/cyberskill-official/gam.git
     cd gam
     ```
 3. **Install dependencies** with pnpm:

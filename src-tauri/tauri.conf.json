@@ -22,7 +22,7 @@
             }
         ],
         "security": {
-            "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src ipc: http://ipc.localhost https://github.com/zintaen/gam/releases/ https://objects.githubusercontent.com"
+            "csp": "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src ipc: http://ipc.localhost https://github.com/cyberskill-official/gam/releases/ https://objects.githubusercontent.com"
         }
     },
     "bundle": {
@@ -44,7 +44,7 @@
         "updater": {
             "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEE1NURCOUVENUFFNEMwRDEKUldUUndPUmE3YmxkcFFVYWRVR0JWenEvZ1Z6NFlUbVFpMW55NnppM0F5S3g4a2VOQ1N4QmI0WFEK",
             "endpoints": [
-                "https://github.com/zintaen/gam/releases/latest/download/latest.json"
+                "https://github.com/cyberskill-official/gam/releases/latest/download/latest.json"
             ]
         }
     }
