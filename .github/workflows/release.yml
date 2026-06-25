@@ -143,7 +143,7 @@ jobs:
             ### 🍺 macOS (Homebrew)
 
             ```bash
-            brew install --cask zintaen/tap/gam
+            brew install --cask cyberskill-official/tap/gam
             ```
           releaseDraft: false
           prerelease: false
@@ -206,6 +206,7 @@ jobs:
 
   homebrew:
     name: 🍺 Bump Homebrew Cask
+    if: ${{ vars.ENABLE_HOMEBREW == 'true' }}  # set repo var ENABLE_HOMEBREW=true after creating cyberskill-official/homebrew-tap + a valid HOMEBREW_GITHUB_TOKEN
     needs: [prepare, release]
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -215,7 +216,7 @@ jobs:
       - name: Checkout homebrew-tap
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
         with:
-          repository: zintaen/homebrew-tap
+          repository: cyberskill-official/homebrew-tap
           token: ${{ secrets.HOMEBREW_GITHUB_TOKEN }}
 
       - name: Wait for release assets to propagate
