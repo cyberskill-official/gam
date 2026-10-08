@@ -98,20 +98,22 @@ pnpm release major
 
 The `scripts/release.js` script does the following automatically:
 
-1. Bumps version in `package.json` (no git tag yet)
-2. Generates a changelog entry from recent commits
-3. Commits the version bump and changelog
-4. Creates a `v<version>` git tag
-5. Pushes the commit and tag to `origin`
+1. Bumps version in `package.json` (no git tag yet) and syncs it into `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml` and `src-tauri/Cargo.lock`
+2. Commits the version bump
+3. Creates a `v<version>` git tag
+4. Pushes the commit and tag to `origin`
+
+It does not write release notes: the release workflow generates them (see below).
 
 ### Step 2 — GitHub Actions builds the release
 
 Pushing a `v*` tag triggers the `.github/workflows/release.yml` workflow:
 
-1. **Builds** the Tauri app on all platforms (`macos-latest` arm64+x86_64, `ubuntu-24.04`, `windows-latest`) using `tauri-apps/tauri-action`
-2. **Signs** the update artifacts using `TAURI_SIGNING_PRIVATE_KEY` from GitHub Secrets
-3. **Publishes** the artifacts as a GitHub Release (`.dmg`, `.AppImage`, `.msi`, `.exe`, `latest.json`)
-4. **Updates Homebrew** — Bumps the `gam` cask in the `cyberskill-official/homebrew-tap` repository (only when the repository variable `ENABLE_HOMEBREW` is `true`)
+1. **Generates release notes** from the commits since the previous tag with `mikepenz/release-changelog-builder-action` (commit mode). `.github/changelog-config.json` groups each commit by its conventional-commit type (`feat`, `fix`, `perf`, `refactor`, `docs`, and `build`/`chore`/`ci`/`revert`/`style`/`test` as maintenance); anything else lands in "Other". Write commit titles as conventional commits so they are grouped.
+2. **Builds** the Tauri app on all platforms (`macos-latest` arm64+x86_64, `ubuntu-24.04`, `windows-latest`) using `tauri-apps/tauri-action`
+3. **Signs** the update artifacts using `TAURI_SIGNING_PRIVATE_KEY` from GitHub Secrets
+4. **Publishes** the artifacts as a GitHub Release (release notes included) (`.dmg`, `.AppImage`, `.msi`, `.exe`, `latest.json`)
+5. **Updates Homebrew** — Bumps the `gam` cask in the `cyberskill-official/homebrew-tap` repository (only when the repository variable `ENABLE_HOMEBREW` is `true`)
 
 ### Release artifacts
 
@@ -131,7 +133,7 @@ Before running `pnpm release`, ensure:
 - [ ] All tests pass: `pnpm test`
 - [ ] Rust compiles cleanly: `cd src-tauri && cargo check`
 - [ ] Local build succeeds: `pnpm build`
-- [ ] `CHANGELOG.md` (repository root) is up to date with notable changes
+- [ ] Commit titles since the last tag follow the conventional-commit format (they become the release notes)
 - [ ] No uncommitted changes: `git status` is clean
 
 ## Tauri Configuration

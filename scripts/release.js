@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process';
-import { existsSync, readFileSync, writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 function run(command) {
@@ -51,45 +51,10 @@ async function main() {
     run('cargo generate-lockfile --manifest-path src-tauri/Cargo.toml');
     console.log('Regenerated src-tauri/Cargo.lock');
 
-    // 2. Generate changelog
-    console.log('Generating changelog...');
-    let lastTag = runSilent('git describe --tags --abbrev=0');
-
-    if (!lastTag) {
-        lastTag = runSilent('git rev-list --max-parents=0 HEAD');
-    }
-
-    const logCmd = lastTag
-        ? `git log ${lastTag}..HEAD --oneline`
-        : 'git log --oneline';
-
-    const logs = runSilent(logCmd);
-    let changelogEntries = '*No significant changes detected.*';
-
-    if (logs && logs.trim().length > 0) {
-        changelogEntries = logs
-            .split('\n')
-            .filter(Boolean)
-            .map(line => `- ${line}`)
-            .join('\n');
-    }
-
-    const changelogPath = join(process.cwd(), 'CHANGELOG.md');
-    const today = new Date().toISOString().split('T')[0];
-    const newChangelogEntry = `## v${newVersion} (${today})\n\n${changelogEntries}\n\n`;
-
-    let currentChangelog = '';
-
-    if (existsSync(changelogPath)) {
-        currentChangelog = readFileSync(changelogPath, 'utf8');
-    }
-
-    writeFileSync(changelogPath, newChangelogEntry + currentChangelog);
-    console.log('Updated CHANGELOG.md');
-
-    // 3. Commit and tag
-    console.log('Committing version bump and changelog...');
-    run('git add package.json CHANGELOG.md src-tauri/tauri.conf.json src-tauri/Cargo.toml src-tauri/Cargo.lock');
+    // 2. Commit and tag. Release notes are not written here: the release workflow builds them
+    // from the conventional-commit titles (.github/changelog-config.json) on GitHub Releases.
+    console.log('Committing version bump...');
+    run('git add package.json src-tauri/tauri.conf.json src-tauri/Cargo.toml src-tauri/Cargo.lock');
 
     try {
         runSilent('git add pnpm-lock.yaml');
@@ -106,7 +71,7 @@ async function main() {
         console.log('No changes to commit, skipping commit and tag.');
     }
 
-    // 4. Push to GitHub (This triggers the GitHub Action for building)
+    // 3. Push to GitHub (This triggers the GitHub Action for building)
     console.log('Pushing to GitHub (which will trigger the CI/CD build)...');
     run('git push origin HEAD');
     run('git push origin --tags');
