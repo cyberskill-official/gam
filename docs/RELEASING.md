@@ -45,10 +45,13 @@ The `pnpm build` script uses `dotenv-cli` to load `.env` automatically.
 
 ## Build Scripts
 
-| Command      | Description                                    |
-| ------------ | ---------------------------------------------- |
-| `pnpm build` | Build for the current platform (auto-detected) |
-| `pnpm dev`   | Start Tauri + Vite dev server                  |
+| Command          | Description                                                |
+| ---------------- | ---------------------------------------------------------- |
+| `pnpm build`     | Build for the current platform (auto-detected)             |
+| `pnpm build:mac` | Build a universal macOS app (Apple Silicon + Intel, macOS) |
+| `pnpm dev`       | Start Tauri + Vite dev server                              |
+
+`pnpm build:mac` needs both Rust targets (`rustup target add aarch64-apple-darwin x86_64-apple-darwin`) and writes its bundles to `src-tauri/target/universal-apple-darwin/release/bundle/`. The release workflow does not use either script: `tauri-action` runs `pnpm tauri build` itself (with a per-architecture `--target` on macOS).
 
 > [!NOTE]
 > Cross-platform builds are handled by CI via `tauri-apps/tauri-action`. macOS builds require macOS runners, and Linux builds require `libwebkit2gtk-4.1-dev`.

@@ -25,7 +25,8 @@
     },
     "scripts": {
         "ai:setup": "cyberskill ai:setup",
-        "build": "dotenv -- tauri build --target universal-apple-darwin",
+        "build": "dotenv -- tauri build",
+        "build:mac": "dotenv -- tauri build --target universal-apple-darwin",
         "dev": "tauri dev",
         "inspect": "cyberskill inspect",
         "lint": "cyberskill lint",
