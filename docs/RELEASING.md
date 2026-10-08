@@ -114,12 +114,12 @@ Pushing a `v*` tag triggers the `.github/workflows/release.yml` workflow:
 
 After CI completes, the GitHub Release page will contain:
 
-| Platform | Files                                |
-| -------- | ------------------------------------ |
-| macOS    | `.dmg`, `.tar.gz`, `.tar.gz.sig`     |
-| Windows  | `.msi`, `.nsis.zip`, `.nsis.zip.sig` |
-| Linux    | `.AppImage`, `.AppImage.sig`         |
-| Updater  | `latest.json` (auto-update manifest) |
+| Platform | Files                                                                 |
+| -------- | --------------------------------------------------------------------- |
+| macOS    | `.dmg` (x64, aarch64), `.app.tar.gz` and `.app.tar.gz.sig` (updater)  |
+| Windows  | `-setup.exe` (NSIS), `.msi`, each with its `.sig`                     |
+| Linux    | `.AppImage`, `.deb`, `.rpm`, each with its `.sig`                     |
+| Updater  | `latest.json` (auto-update manifest); SBOM `sbom-<version>.spdx.json` |
 
 ## Manual / Pre-release Checklist
 
