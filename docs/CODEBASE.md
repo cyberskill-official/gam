@@ -10,25 +10,25 @@ gam/
 │   ├── App.tsx             # Root component — wires hooks + layout
 │   ├── main.tsx            # Entry point — renders <App />
 │   ├── index.css           # Tailwind entry
-│   ├── components/         # UI components (15 files)
-│   ├── hooks/              # Custom React hooks (10 files)
-│   ├── services/           # Frontend data services (4 files)
-│   ├── lib/                # Constants, Tauri detection, platform utils
-│   ├── styles/             # Theme CSS files (15 files)
+│   ├── components/         # UI components
+│   ├── hooks/              # Custom React hooks
+│   ├── services/           # Frontend data services
+│   ├── lib/                # Constants, Tauri detection
+│   ├── styles/             # Theme CSS files
 │   ├── tauri-bridge.ts     # IPC → Tauri invoke bridge
 │   └── types/              # TypeScript interfaces
 ├── src-tauri/              # Rust backend
 │   └── src/
 │       ├── main.rs         # Entry point
 │       ├── lib.rs          # Tauri builder, AppState, plugin setup
-│       ├── commands.rs     # 21 IPC commands (Tauri #[command])
+│       ├── commands.rs     # IPC commands (Tauri #[command])
 │       ├── git_service.rs  # Git alias CRUD via subprocess
 │       ├── file_service.rs # JSON import/export (aliases + groups)
 │       ├── group_service.rs     # Alias group CRUD
 │       ├── ranking_service.rs   # Shell history scoring
 │       ├── settings_service.rs  # App settings persistence
 │       └── known_repos_service.rs # Tracked repo paths
-├── tests/                  # Vitest test suites (225 frontend tests); 66 Rust unit tests live inline in src-tauri/src/
+├── tests/                  # Vitest test suites; the Rust unit tests live inline in src-tauri/src/
 ├── docs/                   # User-facing documentation
 └── .github/workflows/      # CI — check.yml (3-platform matrix) + release.yml
 ```

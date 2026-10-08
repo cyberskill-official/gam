@@ -108,7 +108,7 @@ Pushing a `v*` tag triggers the `.github/workflows/release.yml` workflow:
 1. **Builds** the Tauri app on all platforms (`macos-latest` arm64+x86_64, `ubuntu-24.04`, `windows-latest`) using `tauri-apps/tauri-action`
 2. **Signs** the update artifacts using `TAURI_SIGNING_PRIVATE_KEY` from GitHub Secrets
 3. **Publishes** the artifacts as a GitHub Release (`.dmg`, `.AppImage`, `.msi`, `.exe`, `latest.json`)
-4. **Updates Homebrew** — Bumps the `gam` cask in the `zintaen/homebrew-tap` repository
+4. **Updates Homebrew** — Bumps the `gam` cask in the `cyberskill-official/homebrew-tap` repository (only when the repository variable `ENABLE_HOMEBREW` is `true`)
 
 ### Release artifacts
 
@@ -128,7 +128,7 @@ Before running `pnpm release`, ensure:
 - [ ] All tests pass: `pnpm test`
 - [ ] Rust compiles cleanly: `cd src-tauri && cargo check`
 - [ ] Local build succeeds: `pnpm build`
-- [ ] `docs/CHANGELOG.md` is up to date with notable changes
+- [ ] `CHANGELOG.md` (repository root) is up to date with notable changes
 - [ ] No uncommitted changes: `git status` is clean
 
 ## Tauri Configuration
@@ -137,14 +137,14 @@ The build configuration lives in `src-tauri/tauri.conf.json`. Key settings:
 
 - **App identifier**: `com.github.zintaen.gam`
 - **Window**: 1100×750, min 800×550
-- **Bundle**: dmg, nsis, appimage targets
+- **Bundle**: all Tauri targets (`tauri.conf.json` `"targets": "all"`; the release workflow ships dmg, nsis, msi, AppImage, deb and rpm)
 
 ## Homebrew Installation (macOS)
 
 Once a release is published, macOS users can install via:
 
 ```bash
-brew install --cask zintaen/tap/gam
+brew install --cask cyberskill-official/tap/gam
 ```
 
 ---
@@ -157,4 +157,4 @@ If GAM saves you time and brainpower, consider fueling its development with a ba
 
 Or scan the QR Code:
 
-<img src="docs/screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">
+<img src="screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">
