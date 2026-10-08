@@ -96,11 +96,6 @@ async function main() {
     }
     catch { }
 
-    try {
-        runSilent('git add package-lock.json');
-    }
-    catch { }
-
     // Ensure there are changes before committing
     if (runSilent('git diff --cached --name-only').length > 0) {
         run(`git commit -m "chore(release): bump version to v${newVersion}"`);
