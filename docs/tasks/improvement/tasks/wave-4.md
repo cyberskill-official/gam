@@ -13,6 +13,7 @@ Priority P2. Estimate 6 h. Deps: GAM-018.
 Files: src-tauri (notify crate watcher service), lib.rs, event emit to frontend, useAliases.ts, Toolbar refresh button.
 
 Steps:
+
 1. Watch the resolved global config path and each known repo's .git/config with the notify crate (debounced 500 ms); on change emit aliases-changed to the webview.
 2. Frontend listens and refetches; add a manual refresh button with a spinner state as the fallback affordance.
 3. Watcher lifecycle: rebuild on known-repos changes; drop on exit; failure to watch degrades silently to manual refresh.
@@ -33,6 +34,7 @@ Priority P3. Estimate 2 h. Deps: GAM-036.
 Files: ranking_service.rs, lib.rs/frontend focus event.
 
 Steps:
+
 1. Refresh history cache on window focus events and after alias mutations; raise TTL to 60 s as a backstop.
 2. Keep the consent gate exactly as is.
 
@@ -51,6 +53,7 @@ Priority P2. Estimate 6 h. Deps: GAM-032 (error shape stable first).
 Files: src-tauri (specta derives + build step), generated src/bindings.ts, tauri-bridge.ts consuming it.
 
 Steps:
+
 1. Add specta + tauri-specta; derive Type on the IPC structs; generate bindings in dev/build (checked-in file, CI check that it is current).
 2. Replace hand-written invoke signatures in tauri-bridge.ts with the generated client (keep the I_AppAPI facade so components do not churn).
 3. CI step: regenerate and git diff --exit-code.
@@ -70,6 +73,7 @@ Priority P2. Estimate 10 h. Deps: GAM-018.
 Files: src-tauri/Cargo.toml becomes a workspace: crates/gam-core (git_service, ranking, groups, settings, known-repos, backup, persist, error), src-tauri depends on it.
 
 Steps:
+
 1. Create the workspace; move service modules to gam-core with no tauri dependency (dialog usage stays in the shell; dirs crate stays in core behind a config-dir parameter).
 2. App-data dir passed into core constructors (kills the 4x hardcoded dir string; pairs with GAM-080).
 3. Keep tauri.conf/bundling untouched; cargo-deny + clippy cover the workspace.
@@ -90,6 +94,7 @@ Priority P3. Estimate 1 h. Deps: none.
 Files: .github/workflows/release.yml (prepare job step) or check.yml.
 
 Steps:
+
 1. Script compares package.json, tauri.conf.json, Cargo.toml versions and, on tag builds, the tag itself; mismatch fails fast before any build minutes burn.
 
 Acceptance: mismatched tag dies in prepare with a clear message.
@@ -107,6 +112,7 @@ Priority P3. Estimate 1 h. Deps: none.
 Files: renovate.json.
 
 Steps:
+
 1. Weekly schedule, grouped minor devDependencies, automerge patch-level devDependencies on green checks, lockFileMaintenance monthly, security alerts immediate.
 2. Keep runtime deps manual-review.
 
@@ -125,6 +131,7 @@ Priority P2. Estimate 8 h. Deps: GAM-030.
 Files: playwright a11y spec (axe-core), component fixes, docs/ACCESSIBILITY.md stub.
 
 Steps:
+
 1. Add @axe-core/playwright scans of the main screen, form modal, settings, in default + one light theme; fail on serious/critical.
 2. Keyboard-only e2e: full CRUD without a mouse (tab order, focus trap in modals, Escape behavior - shortcuts already exist).
 3. Fix findings: focus rings, aria labels on icon buttons, dialog roles, contrast tokens where cheap; theme-wide contrast sweep can be follow-up-listed in the doc.
@@ -145,6 +152,7 @@ Priority P3. Estimate 4 h. Deps: GAM-030.
 Files: playwright screenshot spec + checked-in baselines per theme (dashboard view, fixed viewport, animations disabled).
 
 Steps:
+
 1. Deterministic rendering: freeze animations (prefers-reduced-motion + CSS override), fixed seed data via a mock bridge state.
 2. toHaveScreenshot per theme with a small maxDiffPixelRatio; update-snapshot workflow documented.
 
@@ -163,6 +171,7 @@ Priority P3. Estimate 2 h. Deps: none.
 Files: check.yml (linux job step) or the tauri-driver suite.
 
 Steps:
+
 1. In the real-runtime e2e (GAM-031 infra), measure launch-to-window-ready; assert < 2000 ms on the CI runner (generous; catches order-of-magnitude regressions only).
 2. Record the number per run in the job summary for trend eyeballing.
 
@@ -181,6 +190,7 @@ Priority P2. Estimate 10 h. Deps: GAM-032.
 Files: react-i18next setup, src/locales/en.json + vi.json, component sweep, language picker in settings, docs note.
 
 Steps:
+
 1. Wire i18next with detection order: settings > OS locale > en; extract all UI strings (components, toasts, confirm dialogs, warnings list from validate_command codes).
 2. Translate VI natively (not machine-flavored); keep keys semantic.
 3. Map backend error codes + dangerous-command warning codes to localized strings (backend sends codes after GAM-032; move warning text to codes as part of this task).
@@ -201,6 +211,7 @@ Priority P1 (gated). Estimate 6 h. Deps: D3, GAM-073 preferred (config-dir alrea
 Files: gam-core config-dir plumbing, lib.rs migration step, tauri.conf.json identifier, docs.
 
 Steps:
+
 1. Either outcome: one APP_DIR constant / parameter, zero duplicated literals.
 2. If migrating: on first launch of the new identifier, copy (not move) settings/groups/known-repos/backups from the old dir if present and mark migrated; keep the old dir untouched for rollback; updater continuity verified (endpoint + minisign key unchanged - identifier change does not break minisign, but macOS treats it as a new app: document that update-in-place will not occur and ship it as a manual-download release with clear notes).
 3. Release notes template for the migration release; MANUAL.md data-location update.
@@ -220,6 +231,7 @@ Priority P2. Estimate 3 h. Deps: GAM-051 (sign the new artifact too).
 Files: release.yml matrix (windows-latest, target aarch64-pc-windows-msvc), release-notes table row, winget manifest arch entry (GAM-053 follow-up).
 
 Steps:
+
 1. Add the matrix leg with rust_target and tauri args; confirm NSIS/MSI bundling supports the target in current tauri-action; publish artifacts.
 2. Extend the release-body table and checksums job.
 

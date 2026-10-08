@@ -8,7 +8,7 @@ Made by [CyberSkill](https://www.cyberskill.world), open source, and used by our
 
 [![GitHub Stars](https://img.shields.io/github/stars/cyberskill-official/gam?style=social)](https://github.com/cyberskill-official/gam)
 
-[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE) [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri-FFC131.svg?logo=tauri)](https://tauri.app/) [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](../LICENSE) [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri-FFC131.svg?logo=tauri)](https://tauri.app/) [![React](https://img.shields.io/badge/React-19-61DAFB.svg?logo=react)](https://react.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6.svg?logo=typescript)](https://www.typescriptlang.org/)
 
 <br/>
 
@@ -107,7 +107,7 @@ Download the latest release for your platform from the [GitHub Releases](https:/
 ### Homebrew (macOS)
 
 ```bash
-brew install --cask zintaen/tap/gam
+brew install --cask cyberskill-official/tap/gam
 ```
 
 > **Auto-Update:** GAM checks for updates on every launch and lets you update in-place with one click.
@@ -119,7 +119,7 @@ brew install --cask zintaen/tap/gam
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 24.0.0
-- [pnpm](https://pnpm.io/) >= 10.x
+- [pnpm](https://pnpm.io/) 11 (the exact version is pinned by `packageManager` in `package.json`)
 - [Git](https://git-scm.com/) installed and on `PATH`
 
 ### Installation
@@ -143,7 +143,7 @@ The Tauri window opens automatically (first run compiles Rust backend ~2-3 min).
 ## 🧪 Testing
 
 ```bash
-# Run all tests (229 tests: 174 frontend + 55 Rust)
+# Run the front-end tests (Vitest; the Rust tests run separately, below)
 pnpm test
 
 # Run with coverage report
@@ -156,7 +156,7 @@ cd src-tauri && cargo test
 pnpm test:watch
 ```
 
-**Test coverage (22 suites, 174 frontend + 55 Rust tests):**
+**Test coverage (main suites; run the commands above for current counts):**
 
 | Suite                             | Tests | Covers                                                   |
 | --------------------------------- | ----- | -------------------------------------------------------- |
@@ -211,7 +211,7 @@ Or scan the QR Code:
 
 ## 📄 License
 
-This project is licensed under the [MIT License](./LICENSE).
+This project is licensed under the [MIT License](../LICENSE).
 
 ---
 

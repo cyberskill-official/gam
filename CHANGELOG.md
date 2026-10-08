@@ -1,3 +1,7 @@
+# Changelog
+
+From the next release on, release notes live on [GitHub Releases](https://github.com/cyberskill-official/gam/releases): the release workflow generates them from the conventional-commit titles of the commits since the previous tag, and `pnpm release` no longer writes this file. The history below, up to v1.0.12, is kept as it was.
+
 ## v1.0.12 (2026-06-24)
 
 - 4a766b8 Merge pull request #2 from cyberskill-official/chore/rebrand-to-cyberskill

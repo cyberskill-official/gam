@@ -13,6 +13,7 @@ Priority P1. Estimate 3 h. Deps: none.
 Files: e2e/alias-crud.spec.ts, touched components (TitleBar, SearchBar, SettingsDropdown, Toolbar, AliasList, ConfirmDialog).
 
 Steps:
+
 1. Add data-testid to the core interactive elements (title bar, search input, settings button and menu, add-alias button, alias rows, confirm dialog buttons).
 2. Rewrite the three specs to assert unconditionally on testids; a missing element fails the test.
 3. Extend the suite: open create form, validation error on bad name, cancel flow (still browser-mode; real IPC lands in GAM-031).
@@ -32,6 +33,7 @@ Priority P1. Estimate 10 h. Deps: GAM-030.
 Files: new e2e-tauri/ (WebdriverIO config + specs), .github/workflows/check.yml job, docs/CONTRIBUTING.md note.
 
 Steps:
+
 1. Add a webdriverio + tauri-driver setup per the Tauri v2 WebDriver docs; Linux CI job (ubuntu, webkit2gtk-driver, xvfb-run) building the debug binary.
 2. Isolate the environment: HOME set to a temp dir with a scratch gitconfig and a temp repo so tests never touch the runner's real config; pass the repo path as the CLI arg.
 3. Specs: add alias (assert via git config CLI), edit, delete, dangerous-command warning, import/export round-trip using the dialog-free code path (invoke export with a path if needed - acceptable to add a test-only command behind #[cfg(debug_assertions)]).
@@ -52,6 +54,7 @@ Priority P2. Estimate 6 h. Deps: none.
 Files: src-tauri/src/error.rs, commands.rs, git_service.rs (return types), src/types/index.ts, src/tauri-bridge.ts, toast/error display sites.
 
 Steps:
+
 1. Change IpcResult.error to { code: string, message: string }; services return GamError instead of String (From impls exist).
 2. Map known git failures (not found, timeout, permission) to codes; unknown stays GIT_FAILED with the stderr as message.
 3. Frontend: central errorMessage(code, message) helper; components stop string-matching.
@@ -72,6 +75,7 @@ Priority P2. Estimate 4 h. Deps: none.
 Files: .github/workflows/check.yml, README badge, codecov.yml (or equivalent).
 
 Steps:
+
 1. Add cargo-llvm-cov to the check job (ubuntu only is fine) producing lcov; upload frontend lcov (switch vitest coverage reporter to also emit lcov) and Rust lcov to Codecov with flags frontend/rust.
 2. Configure PR comment + patch coverage target 80 informational, project threshold hold-the-line.
 3. Plan (comment in config) the ratchet: frontend lines 70 to 80 over the quarter.
@@ -91,6 +95,7 @@ Priority P2. Estimate 8 h. Deps: GAM-032.
 Files: src-tauri/src/commands.rs tests, src-tauri/fuzz/ (cargo-fuzz targets), proptest dev-dependency, CI optional nightly fuzz job.
 
 Steps:
+
 1. Unit-test command wrappers with an AppState fixture (temp dirs): success + error shape per command family.
 2. proptest: validate_alias_name never panics and accepts/rejects per the documented charset; parse_alias_output(-z) total on arbitrary bytes.
 3. cargo-fuzz targets: FileService::import_aliases on arbitrary bytes; history parsers on arbitrary text. Run 5 minutes in a scheduled weekly workflow (not per-PR).
@@ -111,6 +116,7 @@ Priority P2. Estimate 3 h. Deps: none.
 Files: src-tauri/src/ranking_service.rs tests.
 
 Steps:
+
 1. Refactor refresh_history_cache to take the history root path as a parameter (default: real location) so tests can point at a fixture dir on any OS.
 2. Add fixture-based tests for the PSReadLine format; keep an OS-gated test asserting the real default path resolution on Windows runners.
 3. check.yml already runs the matrix on windows-latest; confirm the new tests execute there.
@@ -130,6 +136,7 @@ Priority P2. Estimate 4 h. Deps: none.
 Files: src-tauri/src/ranking_service.rs.
 
 Steps:
+
 1. Anchor patterns: timestamped zsh lines consume the prefix; plain matcher requires start-of-line (^|;|&&) before git; add \b.
 2. Parse each line with one matcher, never two (count once).
 3. Tail-read: read only the last 512 KB of each history file (seek from end, align to newline); document the window.
@@ -150,6 +157,7 @@ Priority P1. Estimate 3 h. Deps: none.
 Files: PRIVACY.md (root), README link, docs/MANUAL.md link.
 
 Steps:
+
 1. Inventory: reads (global/local gitconfig, shell history files with consent listed by exact path per shell), stores (app-data dir contents: settings.json, groups.json, known-repos.json, backups/, logs), transmits (updater check to the two GitHub URLs; nothing else; no telemetry).
 2. State consent model (history ranking default and toggle), retention (user-controlled; clear-all-data), and jurisdiction posture (no personal data leaves the device; Vietnam PDPD and GDPR stance follows).
 3. Keep it one page, plain language.
@@ -169,6 +177,7 @@ Priority P2. Estimate 4 h. Deps: GAM-021.
 Files: commands.rs (export_diagnostics), backend zip assembly, AboutPanel button.
 
 Steps:
+
 1. Command assembles a zip in a user-chosen location (save dialog): app version, OS, git --version output, settings.json (theme + toggles only), rotated logs, known-repos count (not paths), backups listing (names only). Never alias bodies, never shell-history content, never full repo paths.
 2. AboutPanel: "Export diagnostics" button + toast with the chosen path.
 3. Test: bundle contents allowlist-checked in a unit test (no forbidden files).
@@ -188,6 +197,7 @@ Priority P2. Estimate 3 h. Deps: none.
 Files: git_service.rs (validate), commands.rs, ExportModal/DataPanel copy, file_service.rs.
 
 Steps:
+
 1. Enforce name <= 64 chars, command <= 8 KB at the command boundary with coded errors; mirror limits in the form UI.
 2. Export flow: warning line "Exports are plaintext. Review for secrets before sharing." shown in the dialog area of the UI (Tauri save dialog itself cannot carry it, so surface in the confirm step or toast before opening the dialog).
 3. Import: enforce the same field caps during validation (file cap 10 MB already exists).
@@ -207,6 +217,7 @@ Priority P2. Estimate 2 h. Deps: none.
 Files: src-tauri/tauri.conf.json.
 
 Steps:
+
 1. Append to the CSP: object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; worker-src 'self'.
 2. Add the app.security.headers block (Tauri 2 HTTP headers) with X-Content-Type-Options nosniff and Referrer-Policy no-referrer.
 3. Run the app in dev and release-build smoke to confirm fonts/images/updater still load (connect-src list unchanged).
@@ -226,6 +237,7 @@ Priority P2. Estimate 2 h. Deps: none.
 Files: src-tauri/capabilities/default.json.
 
 Steps:
+
 1. Replace core:default with the specific core permissions the frontend uses (event listen/emit, window default set as needed, app default) - derive the set by grepping @tauri-apps/api usage in src/ and expanding until the app functions.
 2. Keep dialog:default, updater:default, process:default (or narrow process to relaunch/exit actually used by UpdateModal).
 3. Document the final permission set in docs/CODEBASE.md.

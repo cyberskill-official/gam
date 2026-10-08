@@ -122,4 +122,4 @@ If GAM saves you time, consider fueling its development with a banana!
 
 Or scan the QR Code:
 
-<img src="docs/screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">
+<img src="screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">

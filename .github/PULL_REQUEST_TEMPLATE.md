@@ -8,8 +8,8 @@
 <!-- Link to the issue this PR addresses (if any). -->
 <!-- Psst... linking issues helps us all stay sane. If this’s a new feature or bug fix, please create an issue first — teamwork makes the dream work! -->
 
-- Resolve cyberskill-world/ssl-pm#<issue_number>
-- Fix cyberskill-world/ssl-pm#<issue_number>
+- Resolve cyberskill-official/gam#<issue_number>
+- Fix cyberskill-official/gam#<issue_number>
 
 ## Type of Change
 

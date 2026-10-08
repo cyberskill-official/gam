@@ -58,6 +58,7 @@ pnpm dev          # Start Tauri + Vite dev server
 pnpm test         # Run all tests
 pnpm test -- --coverage # Run tests with coverage report
 pnpm test:watch   # Run tests in watch mode
+pnpm typecheck    # Type-check src/ with tsc (no emit)
 pnpm build        # Build for production
 ```
 
@@ -126,4 +127,4 @@ If GAM saves you time and brainpower, consider fueling its development with a ba
 
 Or scan the QR Code:
 
-<img src="docs/screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">
+<img src="screenshots/buy-me-a-coffee.png" alt="Buy Me A Banana QR" width="200" style="border-radius: 12px;">

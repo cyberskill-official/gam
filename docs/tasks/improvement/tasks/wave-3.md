@@ -8,12 +8,13 @@ Gate per task: standard. Tasks marked gated(D<n>) start only after Stephen close
 
 Why: unsigned .dmg means Gatekeeper "damaged app" friction; managed Macs cannot run GAM at all. The env-key scaffolding already exists as comments in release.yml.
 
-Priority P0 (gated). Estimate 6 h. Deps: D1 (Apple Developer Program + six APPLE_* repo secrets set by Stephen).
+Priority P0 (gated). Estimate 6 h. Deps: D1 (Apple Developer Program + six APPLE\_\* repo secrets set by Stephen).
 
 Files: .github/workflows/release.yml, docs/RELEASING.md, tauri.conf.json (macOS signing options if needed).
 
 Steps:
-1. Restore the six APPLE_* env keys on the tauri-action step exactly as the removed block documented (certificate, cert password, signing identity, apple id, app password, team id).
+
+1. Restore the six APPLE\_\* env keys on the tauri-action step exactly as the removed block documented (certificate, cert password, signing identity, apple id, app password, team id).
 2. Enable hardened runtime (Tauri default with signing) and confirm entitlements suffice for the updater relaunch.
 3. Cut a prerelease tag on a test branch; verify: spctl -a -vv accepts the app, stapler validate passes, auto-update from the previous version still verifies (minisign key unchanged).
 4. Update RELEASING.md secret table and the release-notes template (remove the right-click-Open note).
@@ -34,6 +35,7 @@ Priority P0 (gated). Estimate 6 h. Deps: D2 (Azure account, Artifact Signing acc
 Files: .github/workflows/release.yml, src-tauri/tauri.conf.json (bundle > windows > signCommand), docs/RELEASING.md.
 
 Steps:
+
 1. Configure tauri.conf.json windows signCommand to invoke the Artifact Signing client (trusted-signing-cli or Invoke-AzTrustedSigning path documented by the service) with account/profile from env.
 2. Add the Azure login step (OIDC federated credential preferred over client secrets) to the windows matrix leg only.
 3. Test on a prerelease tag: signtool verify /pa passes on .exe and .msi; SmartScreen reputation note added to docs (signing removes the hard block; reputation builds).
@@ -54,6 +56,7 @@ Priority P1 (gated). Estimate 3 h. Deps: D7 (Stephen creates cyberskill-official
 Files: Casks/gam.rb in the tap repo (authored here, applied there), release.yml (no change expected), docs/README.md.
 
 Steps:
+
 1. Author Casks/gam.rb: version, sha256, aarch64 + intel dmg urls (livecheck optional), app stanza "GAM.app", zap stanza removing app-data dirs.
 2. Hand Stephen the exact repo-var and secret steps; after creation, set ENABLE_HOMEBREW=true.
 3. Dry-run the bump job logic against the latest release (the sed replacements) on a fork/branch of the tap.
@@ -73,6 +76,7 @@ Priority P1 (gated). Estimate 4 h. Deps: D7 (publisher account), GAM-051 (signed
 Files: manifests for microsoft/winget-pkgs (CyberSkill.GAM), .github/workflows/release.yml (winget bump job).
 
 Steps:
+
 1. Author the three-file manifest set (version, installer for the x64 .exe or .msi with silent switches, locale) under publisher CyberSkill; validate with winget validate + winget install --manifest locally on Windows (or in CI).
 2. Add a release job using vedantmgoyal9/winget-releaser or wingetcreate update in CI to PR the new version on each tag (token scoped to a fork).
 3. Document the first-submission review lag in RELEASING.md.
@@ -92,6 +96,7 @@ Priority P1. Estimate 6 h. Deps: none (references signed artifacts once D1/D2 la
 Files: docs/enterprise/DEPLOYMENT.md (new), README link.
 
 Steps:
+
 1. Windows: msiexec /i GAM_x.x.x_x64_en-US.msi /qn ALLUSERS=... note (verify the WiX default install scope and document per-user vs per-machine reality; if per-user only, state it and file a follow-up), Intune Win32 packaging steps (.intunewin, install/uninstall commands, detection rule by MSI product code), uninstall string.
 2. macOS: dmg -> app copy, Jamf policy outline, first-run notes; MDM notes for the updater policy (GAM-055 keys).
 3. Linux: deb/rpm silent flags, AppImage note.
@@ -113,6 +118,7 @@ Priority P1. Estimate 8 h. Deps: none.
 Files: src-tauri/src/settings_service.rs or new policy_service.rs, lib.rs, useUpdater.ts, docs/enterprise/DEPLOYMENT.md.
 
 Steps:
+
 1. Read-only policy sources, checked before any update check: macOS managed preferences (CFPreferences/plist at /Library/Managed Preferences/<bundle-id>.plist), Windows registry HKLM\SOFTWARE\Policies\CyberSkill\GAM, Linux /etc/gam/policy.json.
 2. Keys: updates.enabled (bool), updates.channel (string), historyRanking.allowed (bool - lets IT force the consent off).
 3. Policy wins over user settings; UI shows "managed by your organization" state on affected toggles.
@@ -134,6 +140,7 @@ Priority P2. Estimate 8 h. Deps: GAM-055.
 Files: tauri.conf.json (endpoint templating), useUpdater.ts, UpdateModal.tsx, AboutPanel.tsx, release.yml (publish beta latest.json on prerelease tags), docs/RELEASING.md.
 
 Steps:
+
 1. Endpoints: stable keeps latest.json; beta tags (v*-beta.*) publish beta-latest.json; updater endpoint chosen at runtime from settings/policy (updater builder allows endpoint override at check time).
 2. Settings: channel picker (stable default, hidden behind policy if pinned); AboutPanel "Check for updates" button; skip-this-version persisted.
 3. Periodic re-check every 24 h while running (timer), silent unless found.
@@ -154,6 +161,7 @@ Priority P2. Estimate 2 h. Deps: none.
 Files: release.yml (checksums job), docs/README.md or docs/enterprise/DEPLOYMENT.md section.
 
 Steps:
+
 1. After the release job, download all artifacts, produce SHA256SUMS, upload to the release (mirror of the sbom job pattern).
 2. Document: sha256sum -c line, and gh attestation verify <file> --repo cyberskill-official/gam for provenance.
 
@@ -172,6 +180,7 @@ Priority P2. Estimate 3 h. Deps: none.
 Files: .github/workflows/scorecard.yml, README badges, docs note.
 
 Steps:
+
 1. Add ossf/scorecard-action (pinned) on schedule + branch-protection trigger, publishing results (security-events: write, id-token: write for the badge API).
 2. Add the Scorecard badge and the CI badge to README.
 3. Create the openssf best-practices (bestpractices.dev) application checklist as docs/improvement/runbooks/openssf-best-practices.md with the passing/gap answers prefilled; Stephen submits the form.
@@ -191,6 +200,7 @@ Priority P2. Estimate 2 h. Deps: none.
 Files: docs/improvement/runbooks/updater-key.md (internal-safe: no secrets, procedure only), RELEASING.md link.
 
 Steps:
+
 1. Document: where the key lives (password manager entry + the two GitHub secrets, nowhere else), passphrase rules (no shell-special characters - documented lesson), generation command, how to verify the secret pair matches before tagging (local sign test), rotation procedure, and the compromise playbook (rotate, pin new pubkey, ship a manual-reinstall release, announce).
 2. Add a pre-release checklist line: verify signer pair with a dry sign.
 
@@ -209,6 +219,7 @@ Priority P2. Estimate 6 h. Deps: none (after GAM-041 to avoid re-testing capabil
 Files: tauri.conf.json (app > security > pattern), new isolation dir (index.html + hook script), vite config if bundling needs it.
 
 Steps:
+
 1. Configure pattern: isolation with a minimal hook that validates payload shapes for the known commands (name/command length, scope enum echo of GAM-001/GAM-039) and passes through.
 2. Verify dev + release builds and all commands still function (dialogs, updater).
 3. Document the pattern and its guarantees in docs/CODEBASE.md.

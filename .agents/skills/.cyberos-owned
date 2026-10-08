@@ -1,3 +1,0 @@
-cyberos install marker (TASK-IMP-121) - cyberos install CREATED this directory (.agents/skills).
-uninstall.sh removes this container ONLY while it carries this file AND it is otherwise empty.
-Delete it to adopt the directory as your own; uninstall will then leave it alone.

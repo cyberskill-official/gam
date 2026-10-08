@@ -1,9 +1,20 @@
-# AGENTS.md
+# AGENTS.md — gam
 
-This repository runs **CyberOS**. Canonical agent instructions: `.cyberos/AGENT-ENTRY.md`.
+gam is a Tauri desktop application: a Vite + React/TypeScript front end in `src/` and a Rust back end in `src-tauri/`, managed with pnpm.
 
-Work is tasks; HITL is required at the two human-acceptance gates; run gates with `bash .cyberos/cuo/gates/run-gates.sh`. Never push, deploy, or merge without an explicit operator instruction.
+**Status (2026-10-08):** legacy CyberOS v1 has been removed from this repository. The SDD kit from CyberOS is to be adopted here next (CyberOS decision DEC-106); its arrival protocol will replace this file. Until then:
 
-Memory (BRAIN): protocol at `.cyberos/memory/AGENTS.md`; store at `.cyberos/memory/store/`.
+- Open work is the improvement program in `docs/tasks/improvement/` (BACKLOG.md indexes GAM-001 … GAM-065; it will be carried into SDD tasks at adoption).
+- Changes go through pull requests opened by Stephen; never push to `main`, deploy, publish a release or touch signing keys without his explicit instruction.
 
-<!-- cyberos-agent-spine (managed by cyberos install; edit above/below this marker) -->
+Commands (from `package.json`):
+
+| Purpose             | Command                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| Run the app         | `pnpm dev`                                                                          |
+| Unit tests          | `pnpm test`                                                                         |
+| End-to-end tests    | `pnpm test:e2e`                                                                     |
+| Lint                | `pnpm lint`                                                                         |
+| Type check (`src/`) | `pnpm typecheck`                                                                    |
+| Front-end build     | `pnpm vite:build`                                                                   |
+| Rust checks         | `cd src-tauri && cargo clippy --locked -- -D warnings && cargo test --lib --locked` |

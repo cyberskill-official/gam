@@ -3,37 +3,54 @@
         {
             "title": "## 🚀 Features",
             "labels": [
-                "feature",
-                "enhancement"
+                "feat"
             ]
         },
         {
             "title": "## 🐛 Bug Fixes",
             "labels": [
-                "bug",
-                "fix",
-                "bugfix"
+                "fix"
             ]
         },
         {
-            "title": "## 🔧 Improvements",
+            "title": "## ⚡ Performance",
             "labels": [
-                "improvement",
-                "refactor",
-                "perf",
-                "performance"
+                "perf"
             ]
         },
         {
-            "title": "## 📦 Dependencies",
+            "title": "## 🔧 Refactoring",
             "labels": [
-                "dependencies",
-                "deps"
+                "refactor"
             ]
         },
         {
-            "title": "## 📝 Other",
+            "title": "## 📝 Documentation",
+            "labels": [
+                "docs"
+            ]
+        },
+        {
+            "title": "## 🧹 Maintenance",
+            "labels": [
+                "build",
+                "chore",
+                "ci",
+                "revert",
+                "style",
+                "test"
+            ]
+        },
+        {
+            "title": "## 📦 Other",
             "labels": []
+        }
+    ],
+    "label_extractor": [
+        {
+            "pattern": "^(\\w+)(?:\\([^)]*\\))?!?: [\\s\\S]*$",
+            "on_property": "title",
+            "target": "$1"
         }
     ],
     "template": "#{{CHANGELOG}}\n\n**Full Changelog**: #{{RELEASE_DIFF}}",

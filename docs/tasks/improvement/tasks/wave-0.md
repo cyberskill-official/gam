@@ -13,12 +13,14 @@ Priority P0. Estimate 2 h. Deps: none.
 Files: `src-tauri/src/git_service.rs`, `src-tauri/src/commands.rs`.
 
 Steps:
+
 1. Add `pub enum Scope { Global, Local }` with `TryFrom<&str>` accepting exactly `"global"` and `"local"` (and `"all"` only where listing is legal), returning a descriptive error otherwise.
 2. Change `add_alias`, `update_alias`, `delete_alias`, `get_aliases` signatures to parse into `Scope` at the command boundary before any argument construction; derive the `--global`/`--local` flag from the enum, never from the input string.
 3. Keep the IPC string parameter for compatibility; conversion failure returns the standard error shape.
 4. Add unit tests: `file=/tmp/x`, `system`, `worktree`, `blob:HEAD:.gitconfig`, empty string, `Global` (case), all rejected; `global`, `local` accepted.
 
 Acceptance:
+
 - No `format!("--{}", ...)` remains on user-controlled input anywhere in `src-tauri/`.
 - New rejection tests pass; existing integration tests still pass.
 
@@ -35,6 +37,7 @@ Priority P0. Estimate 3 h. Deps: none. Related later work: GAM-014 implements th
 Files: `docs/README.md`, `docs/MANUAL.md`, `docs/RELEASING.md`, `docs/CODEBASE.md`, `package.json`.
 
 Steps:
+
 1. Remove or mark "planned (tracked as GAM-014)" the Auto-Backup feature row; remove the "usage is tracked when you copy" sentence (ranking reads shell history with consent, nothing else).
 2. Fix the Homebrew instruction to `cyberskill-official/tap/gam` and note it goes live only after the tap exists (D7).
 3. Align Node engines: set package.json `engines.node` to `>=24.0.0` to match CI and RELEASING.md, or lower both docs to 22 - pick one and make all three agree (CI currently uses 24.12.0; prefer 24).
@@ -42,6 +45,7 @@ Steps:
 5. Re-verify every feature row in the README against the code; adjust wording where the code does less (or more) than claimed.
 
 Acceptance:
+
 - No documented feature lacks an implementation; no stale namespace or engine contradiction remains.
 - `grep -rn "zintaen" docs/` output only contains deliberate historical references listed in the ledger entry.
 
@@ -58,6 +62,7 @@ Priority P0. Estimate 3 h. Deps: none.
 Files: `SECURITY.md` (repo root), `docs/SUPPORT.md`, `.github/ISSUE_TEMPLATE/bug_report.yml`, `.github/ISSUE_TEMPLATE/task.yml`, `.github/ISSUE_TEMPLATE/config.yml`, `.github/CODEOWNERS`.
 
 Steps:
+
 1. SECURITY.md: report privately via GitHub private vulnerability reporting or security@cyberskill.world; supported versions = latest release; acknowledgment target 72 h, fix target 30 d for high severity; no bounty program; credit policy.
 2. SUPPORT.md: community support via GitHub issues/discussions, no SLA for the free tier; link SECURITY.md for vulnerabilities.
 3. Issue forms (YAML): bug (version, OS, git version, repro steps, logs hint) and feature; config.yml disables blank issues and links SECURITY.md for security reports.
@@ -78,6 +83,7 @@ Priority P0. Estimate 3 h. Deps: none.
 Files: `.github/workflows/codeql.yml`, `.github/workflows/gitleaks.yml`.
 
 Steps:
+
 1. CodeQL: `github/codeql-action` (init/analyze) pinned by SHA, language `javascript-typescript`, on pull_request to main + weekly schedule; default queries.
 2. gitleaks: `gitleaks/gitleaks-action` pinned by SHA, full-history scan on schedule (weekly) and diff scan on pull_request; add `.gitleaks.toml` allowlisting the updater public key (it is public by design) so the scan stays signal-only.
 3. Both workflows `permissions:` minimal (`security-events: write` for CodeQL, `contents: read`).
@@ -97,6 +103,7 @@ Priority P0. Estimate 2 h. Deps: none.
 Files: `docs/improvement/runbooks/repo-settings.md` (new).
 
 Steps:
+
 1. Write the checklist with exact `gh api` commands where the API supports it: branch ruleset on main (require PR, require the four check.yml jobs, no force push), tag ruleset on `v*` (restrict creation), enable secret scanning + push protection, enable private vulnerability reporting, enable Dependency Graph (unblocks the currently non-blocking dependency-review job), require 2FA on the org.
 2. Mark each item with its verification command (`gh api repos/cyberskill-official/gam/rulesets` etc.).
 3. Cross-link from SECURITY.md maintainers section.

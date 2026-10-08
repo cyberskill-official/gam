@@ -4,13 +4,13 @@ This directory is the executable backlog that takes GAM from a polished OSS tool
 
 ## Layout
 
-| File | Purpose |
-|------|---------|
-| `README.md` | This file: how the program works. |
-| `BACKLOG.md` | Master index: all tasks, decisions, waves, estimates, live status. |
-| `tasks/wave-0.md` ... `tasks/wave-5.md` | Detailed task cards (context, steps, acceptance, verification). |
-| `LEDGER.md` | Append-only execution log. Every completed task gets an evidence entry. |
-| `PROMPT.md` | Prompt A (trigger agent implementation) and Prompt B (human review protocol). |
+| File                                    | Purpose                                                                       |
+| --------------------------------------- | ----------------------------------------------------------------------------- |
+| `README.md`                             | This file: how the program works.                                             |
+| `BACKLOG.md`                            | Master index: all tasks, decisions, waves, estimates, live status.            |
+| `tasks/wave-0.md` ... `tasks/wave-5.md` | Detailed task cards (context, steps, acceptance, verification).               |
+| `LEDGER.md`                             | Append-only execution log. Every completed task gets an evidence entry.       |
+| `PROMPT.md`                             | Prompt A (trigger agent implementation) and Prompt B (human review protocol). |
 
 ## How a wave runs
 
