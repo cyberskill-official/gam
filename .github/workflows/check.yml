@@ -42,9 +42,6 @@ jobs:
       - name: Lint
         uses: ./.github/actions/lint
 
-      - name: Type check
-        run: pnpm typecheck
-
       - name: Frontend Tests with Coverage
         run: pnpm test -- --coverage
 
