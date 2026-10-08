@@ -9,11 +9,12 @@ gam is a Tauri desktop application: a Vite + React/TypeScript front end in `src/
 
 Commands (from `package.json`):
 
-| Purpose                       | Command                                                                             |
-| ----------------------------- | ----------------------------------------------------------------------------------- |
-| Run the app                   | `pnpm dev`                                                                          |
-| Unit tests                    | `pnpm test`                                                                         |
-| End-to-end tests              | `pnpm test:e2e`                                                                     |
-| Lint                          | `pnpm lint`                                                                         |
-| Front-end build (type-checks) | `pnpm vite:build`                                                                   |
-| Rust checks                   | `cd src-tauri && cargo clippy --locked -- -D warnings && cargo test --lib --locked` |
+| Purpose             | Command                                                                             |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| Run the app         | `pnpm dev`                                                                          |
+| Unit tests          | `pnpm test`                                                                         |
+| End-to-end tests    | `pnpm test:e2e`                                                                     |
+| Lint                | `pnpm lint`                                                                         |
+| Type check (`src/`) | `pnpm typecheck`                                                                    |
+| Front-end build     | `pnpm vite:build`                                                                   |
+| Rust checks         | `cd src-tauri && cargo clippy --locked -- -D warnings && cargo test --lib --locked` |

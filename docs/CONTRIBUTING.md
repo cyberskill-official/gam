@@ -58,6 +58,7 @@ pnpm dev          # Start Tauri + Vite dev server
 pnpm test         # Run all tests
 pnpm test -- --coverage # Run tests with coverage report
 pnpm test:watch   # Run tests in watch mode
+pnpm typecheck    # Type-check src/ with tsc (no emit)
 pnpm build        # Build for production
 ```
 
