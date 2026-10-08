@@ -5,7 +5,7 @@ This document describes how to build and release GAM as a desktop application.
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 24.0.0
-- [pnpm](https://pnpm.io/) >= 10.x
+- [pnpm](https://pnpm.io/) 11 (the exact version is pinned by `packageManager` in `package.json`)
 - [Rust](https://rustup.rs/) (stable toolchain)
 - [Git](https://git-scm.com/) installed and on `PATH`
 - GitHub repository push access (for tagging and CI)

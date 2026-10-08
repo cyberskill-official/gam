@@ -119,7 +119,7 @@ brew install --cask cyberskill-official/tap/gam
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) >= 24.0.0
-- [pnpm](https://pnpm.io/) >= 10.x
+- [pnpm](https://pnpm.io/) 11 (the exact version is pinned by `packageManager` in `package.json`)
 - [Git](https://git-scm.com/) installed and on `PATH`
 
 ### Installation
