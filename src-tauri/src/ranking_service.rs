@@ -154,7 +154,7 @@ impl RankingService {
                 entry.frequency /= 2.0;
             }
             // Recalculate scores with halved frequencies
-            for (_, score) in scores.iter_mut() {
+            for score in scores.values_mut() {
                 *score /= 2.0;
             }
         }
