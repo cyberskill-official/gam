@@ -45,6 +45,7 @@ jobs:
     name: 🏗️ Build & Release
     needs: prepare
     timeout-minutes: 30
+    environment: release  # signing keys live here; an owner approves each run
     permissions:
       contents: write
       id-token: write
@@ -217,6 +218,7 @@ jobs:
     needs: [prepare, release]
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: release  # HOMEBREW_GITHUB_TOKEN lives here
     permissions:
       contents: read
     steps:
